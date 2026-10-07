@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  userId    Int      @id @default(autoincrement())
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
@@ -25,7 +25,7 @@ model History {
   id         Int      @id @default(autoincrement())
   executedAt DateTime
 
-  executedBy   User @relation(fields: [executedById], references: [id])
+  executedBy   User @relation(fields: [executedById], references: [userId])
   executedById Int
 
   playbook   Playbook @relation(fields: [playbookId], references: [id])
@@ -41,3 +41,4 @@ model Playbook {
 
   histories History[]
 }
+
