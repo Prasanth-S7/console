@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  histories History[]
+}
+
+model History {
+  id         Int      @id @default(autoincrement())
+  executedAt DateTime
+
+  executedBy   User @relation(fields: [executedById], references: [id])
+  executedById Int
+
+  playbook   Playbook @relation(fields: [playbookId], references: [id])
+  playbookId Int
+}
+
+model Playbook {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  path        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  histories History[]
+}
