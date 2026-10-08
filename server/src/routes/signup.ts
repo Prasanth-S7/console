@@ -10,8 +10,10 @@ export const signup: Router = Router();
 
 signup.post("/signup", async (req: Request, res: Response) => {
     try {
+        console.log(req.body)
         const parsedResponse = signupSchema.safeParse(req.body);
         if (!parsedResponse.success) {
+            console.log(parsedResponse.error)
             return res.status(400).json({ msg: "Bad request body" });
         }
 

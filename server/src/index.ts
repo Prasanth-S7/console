@@ -10,11 +10,18 @@ import { signup } from "./routes/signup.js";
 
 const app = express();
 const router = express.Router();
+app.use(express.json());
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    methods: ['GET', 'PUT', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
-app.use(cors());
+app.use(router)
+
 app.use(cookieParser());
 
-app.use(express.json());
 
 app.get("/health", (req, res) => {
     return res.status(200).json({
@@ -22,10 +29,8 @@ app.get("/health", (req, res) => {
     })
 })
 
-app.use(authMiddleware)
-router.use("/auth", login)
 router.use("/auth", signup)
-router.use("/run", run);
+router.use("/run", authMiddleware, run);
 
 app.listen(PORT, () => {
     console.log("Server is running on port 3000");
