@@ -1,0 +1,11 @@
+- name: Play 1
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Who am I
+      ansible.builtin.command: whoami
+      register: result
+
+    - name: Print output
+      ansible.builtin.debug:
+        var: result.stdout
