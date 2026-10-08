@@ -216,7 +216,7 @@ export type PlaybookWhereInput = {
   path?: Prisma.StringFilter<"Playbook"> | string
   description?: Prisma.StringNullableFilter<"Playbook"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Playbook"> | Date | string
-  histories?: Prisma.HistoryListRelationFilter
+  executions?: Prisma.ExecutionListRelationFilter
 }
 
 export type PlaybookOrderByWithRelationInput = {
@@ -225,7 +225,7 @@ export type PlaybookOrderByWithRelationInput = {
   path?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  histories?: Prisma.HistoryOrderByRelationAggregateInput
+  executions?: Prisma.ExecutionOrderByRelationAggregateInput
 }
 
 export type PlaybookWhereUniqueInput = Prisma.AtLeast<{
@@ -237,7 +237,7 @@ export type PlaybookWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PlaybookWhereInput | Prisma.PlaybookWhereInput[]
   description?: Prisma.StringNullableFilter<"Playbook"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Playbook"> | Date | string
-  histories?: Prisma.HistoryListRelationFilter
+  executions?: Prisma.ExecutionListRelationFilter
 }, "id" | "name" | "path">
 
 export type PlaybookOrderByWithAggregationInput = {
@@ -269,7 +269,7 @@ export type PlaybookCreateInput = {
   path: string
   description?: string | null
   createdAt?: Date | string
-  histories?: Prisma.HistoryCreateNestedManyWithoutPlaybookInput
+  executions?: Prisma.ExecutionCreateNestedManyWithoutPlaybookInput
 }
 
 export type PlaybookUncheckedCreateInput = {
@@ -278,7 +278,7 @@ export type PlaybookUncheckedCreateInput = {
   path: string
   description?: string | null
   createdAt?: Date | string
-  histories?: Prisma.HistoryUncheckedCreateNestedManyWithoutPlaybookInput
+  executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutPlaybookInput
 }
 
 export type PlaybookUpdateInput = {
@@ -286,7 +286,7 @@ export type PlaybookUpdateInput = {
   path?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  histories?: Prisma.HistoryUpdateManyWithoutPlaybookNestedInput
+  executions?: Prisma.ExecutionUpdateManyWithoutPlaybookNestedInput
 }
 
 export type PlaybookUncheckedUpdateInput = {
@@ -295,7 +295,7 @@ export type PlaybookUncheckedUpdateInput = {
   path?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  histories?: Prisma.HistoryUncheckedUpdateManyWithoutPlaybookNestedInput
+  executions?: Prisma.ExecutionUncheckedUpdateManyWithoutPlaybookNestedInput
 }
 
 export type PlaybookCreateManyInput = {
@@ -358,32 +358,28 @@ export type PlaybookSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type PlaybookCreateNestedOneWithoutHistoriesInput = {
-  create?: Prisma.XOR<Prisma.PlaybookCreateWithoutHistoriesInput, Prisma.PlaybookUncheckedCreateWithoutHistoriesInput>
-  connectOrCreate?: Prisma.PlaybookCreateOrConnectWithoutHistoriesInput
+export type PlaybookCreateNestedOneWithoutExecutionsInput = {
+  create?: Prisma.XOR<Prisma.PlaybookCreateWithoutExecutionsInput, Prisma.PlaybookUncheckedCreateWithoutExecutionsInput>
+  connectOrCreate?: Prisma.PlaybookCreateOrConnectWithoutExecutionsInput
   connect?: Prisma.PlaybookWhereUniqueInput
 }
 
-export type PlaybookUpdateOneRequiredWithoutHistoriesNestedInput = {
-  create?: Prisma.XOR<Prisma.PlaybookCreateWithoutHistoriesInput, Prisma.PlaybookUncheckedCreateWithoutHistoriesInput>
-  connectOrCreate?: Prisma.PlaybookCreateOrConnectWithoutHistoriesInput
-  upsert?: Prisma.PlaybookUpsertWithoutHistoriesInput
+export type PlaybookUpdateOneRequiredWithoutExecutionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaybookCreateWithoutExecutionsInput, Prisma.PlaybookUncheckedCreateWithoutExecutionsInput>
+  connectOrCreate?: Prisma.PlaybookCreateOrConnectWithoutExecutionsInput
+  upsert?: Prisma.PlaybookUpsertWithoutExecutionsInput
   connect?: Prisma.PlaybookWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PlaybookUpdateToOneWithWhereWithoutHistoriesInput, Prisma.PlaybookUpdateWithoutHistoriesInput>, Prisma.PlaybookUncheckedUpdateWithoutHistoriesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlaybookUpdateToOneWithWhereWithoutExecutionsInput, Prisma.PlaybookUpdateWithoutExecutionsInput>, Prisma.PlaybookUncheckedUpdateWithoutExecutionsInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type PlaybookCreateWithoutHistoriesInput = {
+export type PlaybookCreateWithoutExecutionsInput = {
   name: string
   path: string
   description?: string | null
   createdAt?: Date | string
 }
 
-export type PlaybookUncheckedCreateWithoutHistoriesInput = {
+export type PlaybookUncheckedCreateWithoutExecutionsInput = {
   id?: number
   name: string
   path: string
@@ -391,30 +387,30 @@ export type PlaybookUncheckedCreateWithoutHistoriesInput = {
   createdAt?: Date | string
 }
 
-export type PlaybookCreateOrConnectWithoutHistoriesInput = {
+export type PlaybookCreateOrConnectWithoutExecutionsInput = {
   where: Prisma.PlaybookWhereUniqueInput
-  create: Prisma.XOR<Prisma.PlaybookCreateWithoutHistoriesInput, Prisma.PlaybookUncheckedCreateWithoutHistoriesInput>
+  create: Prisma.XOR<Prisma.PlaybookCreateWithoutExecutionsInput, Prisma.PlaybookUncheckedCreateWithoutExecutionsInput>
 }
 
-export type PlaybookUpsertWithoutHistoriesInput = {
-  update: Prisma.XOR<Prisma.PlaybookUpdateWithoutHistoriesInput, Prisma.PlaybookUncheckedUpdateWithoutHistoriesInput>
-  create: Prisma.XOR<Prisma.PlaybookCreateWithoutHistoriesInput, Prisma.PlaybookUncheckedCreateWithoutHistoriesInput>
+export type PlaybookUpsertWithoutExecutionsInput = {
+  update: Prisma.XOR<Prisma.PlaybookUpdateWithoutExecutionsInput, Prisma.PlaybookUncheckedUpdateWithoutExecutionsInput>
+  create: Prisma.XOR<Prisma.PlaybookCreateWithoutExecutionsInput, Prisma.PlaybookUncheckedCreateWithoutExecutionsInput>
   where?: Prisma.PlaybookWhereInput
 }
 
-export type PlaybookUpdateToOneWithWhereWithoutHistoriesInput = {
+export type PlaybookUpdateToOneWithWhereWithoutExecutionsInput = {
   where?: Prisma.PlaybookWhereInput
-  data: Prisma.XOR<Prisma.PlaybookUpdateWithoutHistoriesInput, Prisma.PlaybookUncheckedUpdateWithoutHistoriesInput>
+  data: Prisma.XOR<Prisma.PlaybookUpdateWithoutExecutionsInput, Prisma.PlaybookUncheckedUpdateWithoutExecutionsInput>
 }
 
-export type PlaybookUpdateWithoutHistoriesInput = {
+export type PlaybookUpdateWithoutExecutionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PlaybookUncheckedUpdateWithoutHistoriesInput = {
+export type PlaybookUncheckedUpdateWithoutExecutionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -428,11 +424,11 @@ export type PlaybookUncheckedUpdateWithoutHistoriesInput = {
  */
 
 export type PlaybookCountOutputType = {
-  histories: number
+  executions: number
 }
 
 export type PlaybookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  histories?: boolean | PlaybookCountOutputTypeCountHistoriesArgs
+  executions?: boolean | PlaybookCountOutputTypeCountExecutionsArgs
 }
 
 /**
@@ -448,8 +444,8 @@ export type PlaybookCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * PlaybookCountOutputType without action
  */
-export type PlaybookCountOutputTypeCountHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.HistoryWhereInput
+export type PlaybookCountOutputTypeCountExecutionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExecutionWhereInput
 }
 
 
@@ -459,7 +455,7 @@ export type PlaybookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   path?: boolean
   description?: boolean
   createdAt?: boolean
-  histories?: boolean | Prisma.Playbook$historiesArgs<ExtArgs>
+  executions?: boolean | Prisma.Playbook$executionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlaybookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["playbook"]>
 
@@ -489,7 +485,7 @@ export type PlaybookSelectScalar = {
 
 export type PlaybookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "path" | "description" | "createdAt", ExtArgs["result"]["playbook"]>
 export type PlaybookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  histories?: boolean | Prisma.Playbook$historiesArgs<ExtArgs>
+  executions?: boolean | Prisma.Playbook$executionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlaybookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PlaybookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -498,7 +494,7 @@ export type PlaybookIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $PlaybookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Playbook"
   objects: {
-    histories: Prisma.$HistoryPayload<ExtArgs>[]
+    executions: Prisma.$ExecutionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -900,7 +896,7 @@ readonly fields: PlaybookFieldRefs;
  */
 export interface Prisma__PlaybookClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  histories<T extends Prisma.Playbook$historiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Playbook$historiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  executions<T extends Prisma.Playbook$executionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Playbook$executionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExecutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1326,27 +1322,27 @@ export type PlaybookDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Playbook.histories
+ * Playbook.executions
  */
-export type Playbook$historiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Playbook$executionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the History
+   * Select specific fields to fetch from the Execution
    */
-  select?: Prisma.HistorySelect<ExtArgs> | null
+  select?: Prisma.ExecutionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the History
+   * Omit specific fields from the Execution
    */
-  omit?: Prisma.HistoryOmit<ExtArgs> | null
+  omit?: Prisma.ExecutionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.HistoryInclude<ExtArgs> | null
-  where?: Prisma.HistoryWhereInput
-  orderBy?: Prisma.HistoryOrderByWithRelationInput | Prisma.HistoryOrderByWithRelationInput[]
-  cursor?: Prisma.HistoryWhereUniqueInput
+  include?: Prisma.ExecutionInclude<ExtArgs> | null
+  where?: Prisma.ExecutionWhereInput
+  orderBy?: Prisma.ExecutionOrderByWithRelationInput | Prisma.ExecutionOrderByWithRelationInput[]
+  cursor?: Prisma.ExecutionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.HistoryScalarFieldEnum | Prisma.HistoryScalarFieldEnum[]
+  distinct?: Prisma.ExecutionScalarFieldEnum | Prisma.ExecutionScalarFieldEnum[]
 }
 
 /**

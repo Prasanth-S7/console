@@ -1,6 +1,0 @@
-allowBuilds:
-  '@prisma/engines': true
-  better-sqlite3: true
-  esbuild: true
-  node-base64: true
-  prisma: true

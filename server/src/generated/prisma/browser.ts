@@ -23,10 +23,10 @@ export * from './enums.js';
  */
 export type User = Prisma.UserModel
 /**
- * Model History
+ * Model Execution
  * 
  */
-export type History = Prisma.HistoryModel
+export type Execution = Prisma.ExecutionModel
 /**
  * Model Playbook
  * 

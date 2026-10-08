@@ -12,18 +12,36 @@ datasource db {
   provider = "sqlite"
 }
 
+enum ExecutionStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
 model User {
   userId    Int      @id @default(autoincrement())
   email     String   @unique
   password  String
+  isAdmin   Boolean @default(false)
   createdAt DateTime @default(now())
 
-  histories History[]
+  histories Execution[]
 }
 
-model History {
-  id         Int      @id @default(autoincrement())
-  executedAt DateTime
+
+model Execution {
+  id Int @id @default(autoincrement())
+  status ExecutionStatus @default(QUEUED)
+  arguments Json?
+  createdAt  DateTime  @default(now())
+  startedAt  DateTime?
+  finishedAt DateTime?
+
+  exitCode Int?
+  stdout   String?
+  stderr   String?
 
   executedBy   User @relation(fields: [executedById], references: [userId])
   executedById Int
@@ -39,6 +57,6 @@ model Playbook {
   description String?
   createdAt   DateTime @default(now())
 
-  histories History[]
+  executions Execution[]
 }
 

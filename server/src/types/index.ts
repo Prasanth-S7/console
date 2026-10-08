@@ -15,7 +15,14 @@ export const loginSchema = z.object({
     password: z.string().min(6).max(12)
 })
 
+export const playbookSchema = z.object({
+  name: z.string().min(1),
+  path: z.string().min(1),
+  description: z.string().optional(),
+});
+
 
 export type SignupInput = z.infer<typeof signupSchema>
 export type RunInput = z.infer<typeof runSchema>;
 export type LoginInput = z.infer<typeof loginSchema>
+export type PlaybookInput = z.infer<typeof playbookSchema>

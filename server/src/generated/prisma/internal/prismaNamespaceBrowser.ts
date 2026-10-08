@@ -52,7 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  History: 'History',
+  Execution: 'Execution',
   Playbook: 'Playbook'
 } as const
 
@@ -73,20 +73,28 @@ export const UserScalarFieldEnum = {
   userId: 'userId',
   email: 'email',
   password: 'password',
+  isAdmin: 'isAdmin',
   createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const HistoryScalarFieldEnum = {
+export const ExecutionScalarFieldEnum = {
   id: 'id',
-  executedAt: 'executedAt',
+  status: 'status',
+  arguments: 'arguments',
+  createdAt: 'createdAt',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  exitCode: 'exitCode',
+  stdout: 'stdout',
+  stderr: 'stderr',
   executedById: 'executedById',
   playbookId: 'playbookId'
 } as const
 
-export type HistoryScalarFieldEnum = (typeof HistoryScalarFieldEnum)[keyof typeof HistoryScalarFieldEnum]
+export type ExecutionScalarFieldEnum = (typeof ExecutionScalarFieldEnum)[keyof typeof ExecutionScalarFieldEnum]
 
 
 export const PlaybookScalarFieldEnum = {
@@ -106,6 +114,31 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const NullsOrder = {

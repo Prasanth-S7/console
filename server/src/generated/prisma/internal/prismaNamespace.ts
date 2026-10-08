@@ -398,7 +398,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  History: 'History',
+  Execution: 'Execution',
   Playbook: 'Playbook'
 } as const
 
@@ -415,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "history" | "playbook"
+    modelProps: "user" | "execution" | "playbook"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -493,77 +493,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    History: {
-      payload: Prisma.$HistoryPayload<ExtArgs>
-      fields: Prisma.HistoryFieldRefs
+    Execution: {
+      payload: Prisma.$ExecutionPayload<ExtArgs>
+      fields: Prisma.ExecutionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.HistoryFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload> | null
+          args: Prisma.ExecutionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.HistoryFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         findFirst: {
-          args: Prisma.HistoryFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload> | null
+          args: Prisma.ExecutionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.HistoryFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         findMany: {
-          args: Prisma.HistoryFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          args: Prisma.ExecutionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>[]
         }
         create: {
-          args: Prisma.HistoryCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         createMany: {
-          args: Prisma.HistoryCreateManyArgs<ExtArgs>
+          args: Prisma.ExecutionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.HistoryCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          args: Prisma.ExecutionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>[]
         }
         delete: {
-          args: Prisma.HistoryDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         update: {
-          args: Prisma.HistoryUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         deleteMany: {
-          args: Prisma.HistoryDeleteManyArgs<ExtArgs>
+          args: Prisma.ExecutionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.HistoryUpdateManyArgs<ExtArgs>
+          args: Prisma.ExecutionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.HistoryUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          args: Prisma.ExecutionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>[]
         }
         upsert: {
-          args: Prisma.HistoryUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistoryPayload>
+          args: Prisma.ExecutionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecutionPayload>
         }
         aggregate: {
-          args: Prisma.HistoryAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateHistory>
+          args: Prisma.ExecutionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExecution>
         }
         groupBy: {
-          args: Prisma.HistoryGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.HistoryGroupByOutputType>[]
+          args: Prisma.ExecutionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecutionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.HistoryCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.HistoryCountAggregateOutputType> | number
+          args: Prisma.ExecutionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecutionCountAggregateOutputType> | number
         }
       }
     }
@@ -681,20 +681,28 @@ export const UserScalarFieldEnum = {
   userId: 'userId',
   email: 'email',
   password: 'password',
+  isAdmin: 'isAdmin',
   createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const HistoryScalarFieldEnum = {
+export const ExecutionScalarFieldEnum = {
   id: 'id',
-  executedAt: 'executedAt',
+  status: 'status',
+  arguments: 'arguments',
+  createdAt: 'createdAt',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  exitCode: 'exitCode',
+  stdout: 'stdout',
+  stderr: 'stderr',
   executedById: 'executedById',
   playbookId: 'playbookId'
 } as const
 
-export type HistoryScalarFieldEnum = (typeof HistoryScalarFieldEnum)[keyof typeof HistoryScalarFieldEnum]
+export type ExecutionScalarFieldEnum = (typeof ExecutionScalarFieldEnum)[keyof typeof ExecutionScalarFieldEnum]
 
 
 export const PlaybookScalarFieldEnum = {
@@ -714,6 +722,31 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const NullsOrder = {
@@ -745,9 +778,37 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'ExecutionStatus'
+ */
+export type EnumExecutionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExecutionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -909,7 +970,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
-  history?: Prisma.HistoryOmit
+  execution?: Prisma.ExecutionOmit
   playbook?: Prisma.PlaybookOmit
 }
 

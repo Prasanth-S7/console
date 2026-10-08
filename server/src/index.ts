@@ -6,19 +6,23 @@ import { PORT } from "./constants/constant.js";
 import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middleware/auth.js";
 import { auth } from "./routes/auth.js";
+import { playbooks } from "./routes/playbook.js";
+import { executions } from "./routes/execution.js"
 
 const app = express();
-const router = express.Router();
-app.use(express.json());
+
 app.use(cors({
     origin: ["http://localhost:5173"],
     methods: ['GET', 'PUT', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
-app.use(router)
 
 app.use(cookieParser());
+app.use(express.json());
+
+const router = express.Router();
+app.use(router)
 
 app.get("/health", (req, res) => {
     return res.status(200).json({
@@ -28,6 +32,8 @@ app.get("/health", (req, res) => {
 
 router.use("/auth", auth)
 router.use("/run", authMiddleware, run);
+router.use("/playbooks", authMiddleware, playbooks);
+router.use("/executions", authMiddleware, executions);
 
 app.listen(PORT, () => {
     console.log("Server is running on port 3000");
