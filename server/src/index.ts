@@ -5,8 +5,7 @@ import { run } from "./routes/run.js";
 import { PORT } from "./constants/constant.js";
 import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middleware/auth.js";
-import { login } from "./routes/login.js";
-import { signup } from "./routes/signup.js";
+import { auth } from "./routes/auth.js";
 
 const app = express();
 const router = express.Router();
@@ -17,11 +16,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
-
 app.use(router)
 
 app.use(cookieParser());
-
 
 app.get("/health", (req, res) => {
     return res.status(200).json({
@@ -29,7 +26,7 @@ app.get("/health", (req, res) => {
     })
 })
 
-router.use("/auth", signup)
+router.use("/auth", auth)
 router.use("/run", authMiddleware, run);
 
 app.listen(PORT, () => {
