@@ -2,8 +2,14 @@ import type { Request, Response } from "express";
 import { Router } from "express";
 import { runSchema } from "../types/index.js";
 import { prisma } from "../lib/prisma.js";
+import { OPTION_DEFS, validateOptions } from "../lib/ansibleOptions.js";
 
 export const run: Router = Router();
+
+// The frontend builds its Options form from this list
+run.get("/options", (_req: Request, res: Response) => {
+    return res.status(200).json({ options: OPTION_DEFS });
+});
 
 run.post("/", async (req: Request, res: Response) => {
     try {
@@ -17,9 +23,15 @@ run.post("/", async (req: Request, res: Response) => {
 
         const {
             playbook_id: playbookId,
-            inventory,
+            options: rawOptions,
             arguments: playbookArgs,
         } = parsedResponse.data;
+
+        const validatedOptions = validateOptions(rawOptions ?? {});
+
+        if (!validatedOptions.success) {
+            return res.status(400).json({ msg: validatedOptions.error });
+        }
 
         const executedById = req.user?.userId;
 
@@ -40,7 +52,7 @@ run.post("/", async (req: Request, res: Response) => {
                 playbookId,
                 executedById,
                 arguments: playbookArgs,
-                inventoryPath: inventory ?? "Not specified",
+                options: validatedOptions.data,
                 status: "QUEUED",
             },
         });
