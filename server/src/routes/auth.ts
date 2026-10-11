@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { JWT_SECRET } from '../constants/constant.js';
 import { prisma } from '../lib/prisma.js';
 import { loginSchema } from '../types/index.js';
+import { authMiddleware } from "../middleware/auth.js";
 
 export const auth: Router = Router();
 
@@ -113,4 +114,8 @@ auth.post("/logout", (_req: Request, res: Response) => {
     });
 
     return res.status(200).json({ msg: "Logged out" });
+});
+
+auth.get("/me", authMiddleware, (req: Request, res: Response) => {
+    return res.status(200).json({ user: req.user });
 });

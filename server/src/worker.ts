@@ -1,11 +1,20 @@
 import "dotenv/config";
 
 import fs from "node:fs/promises";
+import { createWriteStream, type WriteStream } from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { prisma } from "./lib/prisma.js";
 
+import {
+    OPTION_DEFS,
+    buildAnsibleArgs,
+    validateOptions,
+    type Options,
+} from "./lib/ansibleOptions.js";
+
 const POLL_INTERVAL = 2000;
+const LOG_DIR = path.resolve(process.env.LOG_DIR ?? "logs");
 
 let shuttingDown = false;
 
@@ -17,31 +26,57 @@ async function getNextExecution() {
     });
 }
 
-/**
- * Resolves the inventory path and makes sure it exists and is a file.
- * If INVENTORY_ALLOWED_DIR is set, the file must live inside that directory.
- */
-async function resolveInventory(inventoryPath: string): Promise<string> {
-    const resolved = await fs.realpath(inventoryPath);
+function getLogPath(executionId: number) {
+    return path.join(LOG_DIR, `execution-${executionId}.log`);
+}
 
-    const allowedDir = process.env.INVENTORY_ALLOWED_DIR;
+/** Ends the stream and waits until everything is flushed to disk. */
+function closeLog(stream: WriteStream): Promise<void> {
+    return new Promise((resolve) => {
+        stream.end(() => resolve());
+    });
+}
 
-    if (allowedDir) {
-        const base = await fs.realpath(allowedDir);
+const DIVIDER = "=".repeat(60);
 
-        if (!resolved.startsWith(base + path.sep)) {
-            throw new Error(`Inventory must be inside ${base}`);
+async function resolvePathOptions(options: Options): Promise<Options> {
+    const resolved: Options = { ...options };
+
+    const allowedDir = process.env.OPTIONS_ALLOWED_DIR
+        ? await fs.realpath(process.env.OPTIONS_ALLOWED_DIR)
+        : undefined;
+
+    for (const def of OPTION_DEFS) {
+        if (def.type !== "path") continue;
+
+        const value = options[def.key];
+
+        if (typeof value !== "string") continue;
+
+        let real: string;
+
+        try {
+            real = await fs.realpath(value);
+        } catch {
+            throw new Error(`${def.label}: file not found (${value})`);
         }
-    }
 
-    const stat = await fs.stat(resolved);
+        if (allowedDir && !real.startsWith(allowedDir + path.sep)) {
+            throw new Error(`${def.label}: must be inside ${allowedDir}`);
+        }
 
-    if (!stat.isFile()) {
-        throw new Error(`Inventory is not a file: ${inventoryPath}`);
+        const stat = await fs.stat(real);
+
+        if (!stat.isFile()) {
+            throw new Error(`${def.label}: not a file (${value})`);
+        }
+
+        resolved[def.key] = real;
     }
 
     return resolved;
 }
+
 
 async function runExecution(executionId: number): Promise<void> {
     const execution = await prisma.execution.findUnique({
@@ -53,71 +88,124 @@ async function runExecution(executionId: number): Promise<void> {
         return;
     }
 
+    // ---- Open the log file for this execution ----
+    const logPath = getLogPath(executionId);
+
+    const log = createWriteStream(logPath, { flags: "w", mode: 0o640 });
+
+    log.on("error", (error) => {
+        console.error(`[Execution ${executionId}] Log write error:`, error);
+    });
+
+    log.write(
+        [
+            DIVIDER,
+            `ServAuto Execution #${executionId}`,
+            `Playbook : ${execution.playbook.name}`,
+            `Started  : ${new Date().toISOString()}`,
+            DIVIDER,
+            "",
+            "",
+        ].join("\n")
+    );
+
+    // logPath is saved immediately so the log is reachable while it's running
     await prisma.execution.update({
         where: { id: executionId },
         data: {
             status: "RUNNING",
             startedAt: new Date(),
+            logPath,
         },
     });
 
+    /** Writes the footer, flushes the log, then records the final state. */
+    const finalize = async (
+        status: "SUCCESS" | "FAILED",
+        exitCode: number | null,
+        summary: string
+    ) => {
+        log.write(
+            [
+                "",
+                DIVIDER,
+                summary,
+                `Finished : ${new Date().toISOString()}`,
+                DIVIDER,
+                "",
+            ].join("\n")
+        );
+
+        // Wait for the file to be fully written BEFORE the status flips,
+        // so anyone who sees SUCCESS/FAILED also sees the complete log.
+        await closeLog(log);
+
+        await prisma.execution.update({
+            where: { id: executionId },
+            data: {
+                status,
+                finishedAt: new Date(),
+                exitCode,
+            },
+        });
+    };
+
     // ---- Validate inventory (if one was supplied) ----
-    let inventoryPath: string | undefined;
 
-    if (execution.inventoryPath) {
-        try {
-            inventoryPath = await resolveInventory(execution.inventoryPath);
-        } catch (error) {
-            const message =
-                error instanceof Error ? error.message : "Invalid inventory";
+    let optionArgs: string[] = [];
 
-            console.error(`[Execution ${executionId}] Inventory error: ${message}`);
+    try {
+        const validated = validateOptions(
+            (execution.options ?? {}) as Record<string, unknown>
+        );
 
-            await prisma.execution.update({
-                where: { id: executionId },
-                data: {
-                    status: "FAILED",
-                    finishedAt: new Date(),
-                    stderr: `Inventory error: ${message}`,
-                },
-            });
-
-            return;
+        if (!validated.success) {
+            throw new Error(validated.error);
         }
+
+        const resolved = await resolvePathOptions(validated.data);
+
+        optionArgs = buildAnsibleArgs(resolved);
+    } catch (error) {
+        const message =
+            error instanceof Error ? error.message : "Invalid options";
+
+        console.error(`[Execution ${executionId}] Option error: ${message}`);
+
+        await finalize("FAILED", null, `Option error: ${message}`);
+
+        return;
     }
 
     // ---- Build the command ----
     const command = "ansible-playbook";
 
-    const args: string[] = [execution.playbook.path];
-
-    if (inventoryPath) {
-        args.push("-i", inventoryPath);
-    }
-
-    args.push("--extra-vars", JSON.stringify(execution.arguments ?? {}));
+    const args: string[] = [
+        execution.playbook.path,
+        ...optionArgs,
+        "--extra-vars",
+        JSON.stringify(execution.arguments ?? {}),
+    ];
+ 
 
     console.log("Executing command:", command, ...args);
+
+    log.write(`$ ${command} ${args.join(" ")}\n\n`);
 
     return new Promise((resolve) => {
         const child = spawn(command, args, { shell: false });
 
-        let stdout = "";
-        let stderr = "";
         let spawnFailed = false;
 
+        // stdout and stderr go into the same file, in the order they arrive
         child.stdout.on("data", (data: Buffer) => {
-            const output = data.toString();
-
-            stdout += output;
-            process.stdout.write(`[Execution ${executionId}] ${output}`);
+            log.write(data);
+            process.stdout.write(`[Execution ${executionId}] ${data.toString()}`);
         });
 
         child.stderr.on("data", (data: Buffer) => {
-            const output = data.toString();
-
-            stderr += output;
-            process.stderr.write(`[Execution ${executionId}] ${output}`);
+            log.write(data);
+            process.stderr.write(`[Execution ${executionId}] ${data.toString()}`);
         });
 
         child.on("error", async (error) => {
@@ -126,39 +214,34 @@ async function runExecution(executionId: number): Promise<void> {
             console.error(`[Execution ${executionId}] Failed to start:`, error);
 
             try {
-                await prisma.execution.update({
-                    where: { id: executionId },
-                    data: {
-                        status: "FAILED",
-                        finishedAt: new Date(),
-                        stderr: error.message,
-                    },
-                });
+                await finalize("FAILED", null, `Failed to start: ${error.message}`);
+            } catch (dbError) {
+                console.error(
+                    `[Execution ${executionId}] Finalize failed:`,
+                    dbError
+                );
             } finally {
                 resolve();
             }
         });
 
-        child.on("close", async (code) => {
+        child.on("close", async (code, signal) => {
             if (spawnFailed) {
                 return;
             }
 
-            try {
-                await prisma.execution.update({
-                    where: { id: executionId },
-                    data: {
-                        status: code === 0 ? "SUCCESS" : "FAILED",
-                        finishedAt: new Date(),
-                        exitCode: code,
-                        stdout,
-                        stderr,
-                    },
-                });
+            const status = code === 0 ? "SUCCESS" : "FAILED";
 
-                console.log(
-                    `[Execution ${executionId}] ${code === 0 ? "SUCCESS" : "FAILED"}`
+            try {
+                await finalize(
+                    status,
+                    code,
+                    signal
+                        ? `Terminated by signal ${signal}`
+                        : `Exit code: ${code}`
                 );
+
+                console.log(`[Execution ${executionId}] ${status}`);
             } catch (error) {
                 console.error(
                     `[Execution ${executionId}] Database update failed:`,
@@ -172,7 +255,10 @@ async function runExecution(executionId: number): Promise<void> {
 }
 
 async function worker() {
+    await fs.mkdir(LOG_DIR, { recursive: true });
+
     console.log("ServAuto worker started");
+    console.log(`Logs directory: ${LOG_DIR}`);
 
     while (!shuttingDown) {
         try {

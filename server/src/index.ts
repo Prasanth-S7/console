@@ -12,7 +12,7 @@ import { executions } from "./routes/execution.js"
 const app = express();
 
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://localhost:4173"],
     methods: ['GET', 'PUT', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
