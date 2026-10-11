@@ -104,3 +104,13 @@ auth.post("/login", async (req: Request, res: Response) => {
         return res.status(500).json({ msg: "Internal Server Error" });
     }
 });
+
+auth.post("/logout", (_req: Request, res: Response) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+    });
+
+    return res.status(200).json({ msg: "Logged out" });
+});
