@@ -34,11 +34,12 @@ model User {
 model Execution {
   id Int @id @default(autoincrement())
   status ExecutionStatus @default(QUEUED)
-  inventoryPath String?
   arguments Json?
   createdAt  DateTime  @default(now())
   startedAt  DateTime?
   finishedAt DateTime?
+  logPath    String?
+  options    Json?
 
   exitCode Int?
   stdout   String?
