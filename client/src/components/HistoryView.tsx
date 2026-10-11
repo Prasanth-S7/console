@@ -26,9 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
-const API_URL =
-  import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+import { apiFetch } from "@/lib/api";
 
 type ExecutionStatus =
   | "QUEUED"
@@ -78,9 +76,7 @@ export default function HistoryView() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/executions`, {
-        credentials: "include",
-      });
+      const response = await apiFetch("/executions");
 
       const data = await response.json();
 
@@ -177,7 +173,7 @@ export default function HistoryView() {
                   <TableHead>Playbook</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Executed by</TableHead>
-                  <TableHead>Queued at</TableHead>
+                  {/* <TableHead>Queued at</TableHead> */}
                   <TableHead>Started at</TableHead>
                   <TableHead>Finished at</TableHead>
                   <TableHead>Exit code</TableHead>
@@ -205,9 +201,9 @@ export default function HistoryView() {
                       {execution.executedBy.email}
                     </TableCell>
 
-                    <TableCell>
+                    {/* <TableCell>
                       {formatDate(execution.createdAt)}
-                    </TableCell>
+                    </TableCell> */}
 
                     <TableCell>
                       {formatDate(execution.startedAt)}

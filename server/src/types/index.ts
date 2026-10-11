@@ -2,22 +2,7 @@ import * as z from "zod";
 
 export const runSchema = z.object({
     playbook_id: z.coerce.number().int().positive(),
-    // Optional. If omitted, Ansible falls back to its default inventory.
-    inventory: z
-        .string()
-        .trim()
-        .min(1)
-        .refine((p) => p.startsWith("/"), {
-            message: "Inventory path must be absolute",
-        })
-        .refine((p) => !p.includes(","), {
-            message: "Inventory path must not contain commas",
-        })
-        .refine((p) => !p.split("/").includes(".."), {
-            message: "Inventory path must not contain '..'",
-        })
-        .optional(),
-
+    options: z.record(z.string(), z.unknown()).optional(),
     arguments: z.record(z.string(), z.array(z.string())),
 });
 

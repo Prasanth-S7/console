@@ -4,27 +4,47 @@ import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { apiFetch } from "@/lib/api";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
-export default function ConfigView() {
+interface ConfigDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSaved?: () => void;
+}
+
+export default function ConfigDialog({
+  open,
+  onOpenChange,
+  onSaved,
+}: ConfigDialogProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [path, setPath] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const handleOpenChange = (next: boolean) => {
+    if (!next) {
+      // Clear old messages so they don't show up next time it opens
+      setError(null);
+      setSuccess(null);
+    }
+
+    onOpenChange(next);
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,10 +53,10 @@ export default function ConfigView() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/playbooks/add`, {
+
+      const res = await apiFetch("/playbooks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify({
           name: name.trim(),
           path: path.trim(),
@@ -55,6 +75,8 @@ export default function ConfigView() {
       setName("");
       setDescription("");
       setPath("");
+
+      onSaved?.();
     } catch {
       setError("Could not reach the server. Please try again.");
     } finally {
@@ -63,16 +85,18 @@ export default function ConfigView() {
   };
 
   return (
-    <Card className="w-full max-w-2xl">
-      <CardHeader>
-        <CardTitle>Playbook configuration</CardTitle>
-        <CardDescription>
-          Register an Ansible playbook so it can be triggered from the Execute tab.
-        </CardDescription>
-      </CardHeader>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Playbook configuration</DialogTitle>
 
-      <form onSubmit={handleSubmit}>
-        <CardContent className="grid gap-4">
+          <DialogDescription>
+            Register an Ansible playbook so it can be triggered from the
+            Execute tab.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="grid gap-4">
           {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
@@ -88,9 +112,10 @@ export default function ConfigView() {
           )}
 
           <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="config-name">Name</Label>
+
             <Input
-              id="name"
+              id="config-name"
               placeholder="restart-sap-services"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -99,9 +124,10 @@ export default function ConfigView() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="config-description">Description</Label>
+
             <Textarea
-              id="description"
+              id="config-description"
               placeholder="What does this playbook do?"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -110,24 +136,34 @@ export default function ConfigView() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="path">Playbook path</Label>
+            <Label htmlFor="config-path">Playbook path</Label>
+
             <Input
-              id="path"
+              id="config-path"
               placeholder="/opt/ansible/playbooks/restart_sap.yml"
               value={path}
               onChange={(e) => setPath(e.target.value)}
+              className="font-mono text-sm"
               required
             />
           </div>
-        </CardContent>
 
-        <CardFooter className="mt-6">
-          <Button type="submit" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {loading ? "Saving..." : "Save"}
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOpenChange(false)}
+            >
+              Close
+            </Button>
+
+            <Button type="submit" disabled={loading}>
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {loading ? "Saving..." : "Save"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
