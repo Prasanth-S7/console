@@ -83,6 +83,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const ExecutionScalarFieldEnum = {
   id: 'id',
   status: 'status',
+  inventoryPath: 'inventoryPath',
   arguments: 'arguments',
   createdAt: 'createdAt',
   startedAt: 'startedAt',

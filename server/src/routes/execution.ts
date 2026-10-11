@@ -19,6 +19,8 @@ executions.get("/", async (req: Request, res: Response) => {
         createdAt: true,
         startedAt: true,
         finishedAt: true,
+        stdout: true,
+        stderr: true,
 
         exitCode: true,
 

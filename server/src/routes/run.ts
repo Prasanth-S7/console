@@ -11,31 +11,28 @@ run.post("/", async (req: Request, res: Response) => {
 
         if (!parsedResponse.success) {
             return res.status(400).json({
-                msg: "Bad request body",
+                msg: parsedResponse.error.issues[0]?.message ?? "Bad request body",
             });
         }
 
-        const playbookId = parsedResponse.data.playbook_id;
-        const playbookArgs = parsedResponse.data.arguments;
+        const {
+            playbook_id: playbookId,
+            inventory,
+            arguments: playbookArgs,
+        } = parsedResponse.data;
 
         const executedById = req.user?.userId;
 
         if (!executedById) {
-            return res.status(401).json({
-                msg: "Unauthorized",
-            });
+            return res.status(401).json({ msg: "Unauthorized" });
         }
 
         const playbook = await prisma.playbook.findUnique({
-            where: {
-                id: playbookId,
-            },
+            where: { id: playbookId },
         });
 
         if (!playbook) {
-            return res.status(404).json({
-                msg: "Playbook not found",
-            });
+            return res.status(404).json({ msg: "Playbook not found" });
         }
 
         const execution = await prisma.execution.create({
@@ -43,6 +40,7 @@ run.post("/", async (req: Request, res: Response) => {
                 playbookId,
                 executedById,
                 arguments: playbookArgs,
+                inventoryPath: inventory ?? "Not specified",
                 status: "QUEUED",
             },
         });
@@ -54,9 +52,6 @@ run.post("/", async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error("Failed to queue playbook:", error);
-
-        return res.status(500).json({
-            msg: "Internal Server Error",
-        });
+        return res.status(500).json({ msg: "Internal Server Error" });
     }
 });

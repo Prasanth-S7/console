@@ -43,6 +43,7 @@ export type ExecutionSumAggregateOutputType = {
 export type ExecutionMinAggregateOutputType = {
   id: number | null
   status: $Enums.ExecutionStatus | null
+  inventoryPath: string | null
   createdAt: Date | null
   startedAt: Date | null
   finishedAt: Date | null
@@ -56,6 +57,7 @@ export type ExecutionMinAggregateOutputType = {
 export type ExecutionMaxAggregateOutputType = {
   id: number | null
   status: $Enums.ExecutionStatus | null
+  inventoryPath: string | null
   createdAt: Date | null
   startedAt: Date | null
   finishedAt: Date | null
@@ -69,6 +71,7 @@ export type ExecutionMaxAggregateOutputType = {
 export type ExecutionCountAggregateOutputType = {
   id: number
   status: number
+  inventoryPath: number
   arguments: number
   createdAt: number
   startedAt: number
@@ -99,6 +102,7 @@ export type ExecutionSumAggregateInputType = {
 export type ExecutionMinAggregateInputType = {
   id?: true
   status?: true
+  inventoryPath?: true
   createdAt?: true
   startedAt?: true
   finishedAt?: true
@@ -112,6 +116,7 @@ export type ExecutionMinAggregateInputType = {
 export type ExecutionMaxAggregateInputType = {
   id?: true
   status?: true
+  inventoryPath?: true
   createdAt?: true
   startedAt?: true
   finishedAt?: true
@@ -125,6 +130,7 @@ export type ExecutionMaxAggregateInputType = {
 export type ExecutionCountAggregateInputType = {
   id?: true
   status?: true
+  inventoryPath?: true
   arguments?: true
   createdAt?: true
   startedAt?: true
@@ -226,6 +232,7 @@ export type ExecutionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type ExecutionGroupByOutputType = {
   id: number
   status: $Enums.ExecutionStatus
+  inventoryPath: string | null
   arguments: runtime.JsonValue | null
   createdAt: Date
   startedAt: Date | null
@@ -263,6 +270,7 @@ export type ExecutionWhereInput = {
   NOT?: Prisma.ExecutionWhereInput | Prisma.ExecutionWhereInput[]
   id?: Prisma.IntFilter<"Execution"> | number
   status?: Prisma.EnumExecutionStatusFilter<"Execution"> | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.StringNullableFilter<"Execution"> | string | null
   arguments?: Prisma.JsonNullableFilter<"Execution">
   createdAt?: Prisma.DateTimeFilter<"Execution"> | Date | string
   startedAt?: Prisma.DateTimeNullableFilter<"Execution"> | Date | string | null
@@ -279,6 +287,7 @@ export type ExecutionWhereInput = {
 export type ExecutionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  inventoryPath?: Prisma.SortOrderInput | Prisma.SortOrder
   arguments?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -298,6 +307,7 @@ export type ExecutionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ExecutionWhereInput[]
   NOT?: Prisma.ExecutionWhereInput | Prisma.ExecutionWhereInput[]
   status?: Prisma.EnumExecutionStatusFilter<"Execution"> | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.StringNullableFilter<"Execution"> | string | null
   arguments?: Prisma.JsonNullableFilter<"Execution">
   createdAt?: Prisma.DateTimeFilter<"Execution"> | Date | string
   startedAt?: Prisma.DateTimeNullableFilter<"Execution"> | Date | string | null
@@ -314,6 +324,7 @@ export type ExecutionWhereUniqueInput = Prisma.AtLeast<{
 export type ExecutionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  inventoryPath?: Prisma.SortOrderInput | Prisma.SortOrder
   arguments?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -336,6 +347,7 @@ export type ExecutionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ExecutionScalarWhereWithAggregatesInput | Prisma.ExecutionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Execution"> | number
   status?: Prisma.EnumExecutionStatusWithAggregatesFilter<"Execution"> | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.StringNullableWithAggregatesFilter<"Execution"> | string | null
   arguments?: Prisma.JsonNullableWithAggregatesFilter<"Execution">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Execution"> | Date | string
   startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Execution"> | Date | string | null
@@ -349,6 +361,7 @@ export type ExecutionScalarWhereWithAggregatesInput = {
 
 export type ExecutionCreateInput = {
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -363,6 +376,7 @@ export type ExecutionCreateInput = {
 export type ExecutionUncheckedCreateInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -376,6 +390,7 @@ export type ExecutionUncheckedCreateInput = {
 
 export type ExecutionUpdateInput = {
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -390,6 +405,7 @@ export type ExecutionUpdateInput = {
 export type ExecutionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -404,6 +420,7 @@ export type ExecutionUncheckedUpdateInput = {
 export type ExecutionCreateManyInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -417,6 +434,7 @@ export type ExecutionCreateManyInput = {
 
 export type ExecutionUpdateManyMutationInput = {
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -429,6 +447,7 @@ export type ExecutionUpdateManyMutationInput = {
 export type ExecutionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -453,6 +472,7 @@ export type ExecutionOrderByRelationAggregateInput = {
 export type ExecutionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  inventoryPath?: Prisma.SortOrder
   arguments?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -474,6 +494,7 @@ export type ExecutionAvgOrderByAggregateInput = {
 export type ExecutionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  inventoryPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
@@ -487,6 +508,7 @@ export type ExecutionMaxOrderByAggregateInput = {
 export type ExecutionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  inventoryPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
@@ -550,6 +572,10 @@ export type EnumExecutionStatusFieldUpdateOperationsInput = {
   set?: $Enums.ExecutionStatus
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
@@ -560,10 +586,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type ExecutionCreateNestedManyWithoutPlaybookInput = {
@@ -610,6 +632,7 @@ export type ExecutionUncheckedUpdateManyWithoutPlaybookNestedInput = {
 
 export type ExecutionCreateWithoutExecutedByInput = {
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -623,6 +646,7 @@ export type ExecutionCreateWithoutExecutedByInput = {
 export type ExecutionUncheckedCreateWithoutExecutedByInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -664,6 +688,7 @@ export type ExecutionScalarWhereInput = {
   NOT?: Prisma.ExecutionScalarWhereInput | Prisma.ExecutionScalarWhereInput[]
   id?: Prisma.IntFilter<"Execution"> | number
   status?: Prisma.EnumExecutionStatusFilter<"Execution"> | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.StringNullableFilter<"Execution"> | string | null
   arguments?: Prisma.JsonNullableFilter<"Execution">
   createdAt?: Prisma.DateTimeFilter<"Execution"> | Date | string
   startedAt?: Prisma.DateTimeNullableFilter<"Execution"> | Date | string | null
@@ -677,6 +702,7 @@ export type ExecutionScalarWhereInput = {
 
 export type ExecutionCreateWithoutPlaybookInput = {
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -690,6 +716,7 @@ export type ExecutionCreateWithoutPlaybookInput = {
 export type ExecutionUncheckedCreateWithoutPlaybookInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -728,6 +755,7 @@ export type ExecutionUpdateManyWithWhereWithoutPlaybookInput = {
 export type ExecutionCreateManyExecutedByInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -740,6 +768,7 @@ export type ExecutionCreateManyExecutedByInput = {
 
 export type ExecutionUpdateWithoutExecutedByInput = {
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -753,6 +782,7 @@ export type ExecutionUpdateWithoutExecutedByInput = {
 export type ExecutionUncheckedUpdateWithoutExecutedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -766,6 +796,7 @@ export type ExecutionUncheckedUpdateWithoutExecutedByInput = {
 export type ExecutionUncheckedUpdateManyWithoutExecutedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -779,6 +810,7 @@ export type ExecutionUncheckedUpdateManyWithoutExecutedByInput = {
 export type ExecutionCreateManyPlaybookInput = {
   id?: number
   status?: $Enums.ExecutionStatus
+  inventoryPath?: string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   startedAt?: Date | string | null
@@ -791,6 +823,7 @@ export type ExecutionCreateManyPlaybookInput = {
 
 export type ExecutionUpdateWithoutPlaybookInput = {
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -804,6 +837,7 @@ export type ExecutionUpdateWithoutPlaybookInput = {
 export type ExecutionUncheckedUpdateWithoutPlaybookInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -817,6 +851,7 @@ export type ExecutionUncheckedUpdateWithoutPlaybookInput = {
 export type ExecutionUncheckedUpdateManyWithoutPlaybookInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumExecutionStatusFieldUpdateOperationsInput | $Enums.ExecutionStatus
+  inventoryPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   arguments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -832,6 +867,7 @@ export type ExecutionUncheckedUpdateManyWithoutPlaybookInput = {
 export type ExecutionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
+  inventoryPath?: boolean
   arguments?: boolean
   createdAt?: boolean
   startedAt?: boolean
@@ -848,6 +884,7 @@ export type ExecutionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type ExecutionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
+  inventoryPath?: boolean
   arguments?: boolean
   createdAt?: boolean
   startedAt?: boolean
@@ -864,6 +901,7 @@ export type ExecutionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type ExecutionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
+  inventoryPath?: boolean
   arguments?: boolean
   createdAt?: boolean
   startedAt?: boolean
@@ -880,6 +918,7 @@ export type ExecutionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type ExecutionSelectScalar = {
   id?: boolean
   status?: boolean
+  inventoryPath?: boolean
   arguments?: boolean
   createdAt?: boolean
   startedAt?: boolean
@@ -891,7 +930,7 @@ export type ExecutionSelectScalar = {
   playbookId?: boolean
 }
 
-export type ExecutionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "arguments" | "createdAt" | "startedAt" | "finishedAt" | "exitCode" | "stdout" | "stderr" | "executedById" | "playbookId", ExtArgs["result"]["execution"]>
+export type ExecutionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "inventoryPath" | "arguments" | "createdAt" | "startedAt" | "finishedAt" | "exitCode" | "stdout" | "stderr" | "executedById" | "playbookId", ExtArgs["result"]["execution"]>
 export type ExecutionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   executedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   playbook?: boolean | Prisma.PlaybookDefaultArgs<ExtArgs>
@@ -914,6 +953,7 @@ export type $ExecutionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     status: $Enums.ExecutionStatus
+    inventoryPath: string | null
     arguments: runtime.JsonValue | null
     createdAt: Date
     startedAt: Date | null
@@ -1350,6 +1390,7 @@ export interface Prisma__ExecutionClient<T, Null = never, ExtArgs extends runtim
 export interface ExecutionFieldRefs {
   readonly id: Prisma.FieldRef<"Execution", 'Int'>
   readonly status: Prisma.FieldRef<"Execution", 'ExecutionStatus'>
+  readonly inventoryPath: Prisma.FieldRef<"Execution", 'String'>
   readonly arguments: Prisma.FieldRef<"Execution", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Execution", 'DateTime'>
   readonly startedAt: Prisma.FieldRef<"Execution", 'DateTime'>
