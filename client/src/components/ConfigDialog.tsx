@@ -54,7 +54,7 @@ export default function ConfigDialog({
 
     try {
 
-      const res = await apiFetch("/playbooks", {
+      const res = await apiFetch("/playbooks/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
