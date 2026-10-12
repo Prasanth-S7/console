@@ -30,10 +30,21 @@ Express API ──► SQLite (Prisma)
 
 ## Screenshots
 
-<img src ="https://github.com/user-attachments/assets/7e3cf2ed-c14b-464c-91db-0cd079b7114b"> 
-<img src ="https://github.com/user-attachments/assets/689ebdf0-f7cd-4126-a924-6d0929194e64"> 
-<img src ="https://github.com/user-attachments/assets/c51592c1-dfc3-421b-aea0-4ae1dfcc31b2"> 
-<img src ="https://github.com/user-attachments/assets/53aa0bd6-f978-4013-a949-cb3a1248f0c2"> 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7e3cf2ed-c14b-464c-91db-0cd079b7114b" width="100%" style="border: 1px solid white;">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/689ebdf0-f7cd-4126-a924-6d0929194e64" width="100%" style="border: 1px solid white;">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c51592c1-dfc3-421b-aea0-4ae1dfcc31b2" width="100%" style="border: 1px solid white;">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/53aa0bd6-f978-4013-a949-cb3a1248f0c2" width="100%" style="border: 1px solid white;">
+</p>
 
 ## Tech stack
 
