@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -17,6 +18,7 @@
 }
 
 @theme inline {
+    --font-doto: 'Doto', sans-serif;
     --font-heading: 'Merriweather Variable', serif;
     --font-sans: 'Geist Variable', sans-serif;
     --font-satoshi: 'Satoshi Variable', sans-serif;

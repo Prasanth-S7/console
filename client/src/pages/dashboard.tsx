@@ -81,7 +81,7 @@ export default function Dashboard() {
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="px-4 py-3">
-          <span className="text-lg font-semibold">ServAuto</span>
+          <span className="text-lg font-semibold font-doto">Console</span>
         </SidebarHeader>
 
         <SidebarContent>
