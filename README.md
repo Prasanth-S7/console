@@ -29,22 +29,19 @@ Express API ──► SQLite (Prisma)
 - The API and the worker are separate processes that share the same database and log directory.
 
 ## Screenshots
+<img width="1374" height="713" alt="Image" src="https://github.com/user-attachments/assets/15fbd0d7-4176-410a-bc34-7ac66caf138f" />
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/7e3cf2ed-c14b-464c-91db-0cd079b7114b" width="100%" style="border: 1px solid white;">
-</p>
+<br />
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/689ebdf0-f7cd-4126-a924-6d0929194e64" width="100%" style="border: 1px solid white;">
-</p>
+<img width="1374" height="712" alt="Image" src="https://github.com/user-attachments/assets/bfd516fe-3883-4400-9447-0b65e9c4649c" />
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/c51592c1-dfc3-421b-aea0-4ae1dfcc31b2" width="100%" style="border: 1px solid white;">
-</p>
+<br />
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/53aa0bd6-f978-4013-a949-cb3a1248f0c2" width="100%" style="border: 1px solid white;">
-</p>
+<img width="1374" height="710" alt="Image" src="https://github.com/user-attachments/assets/43e4f0e1-785d-4423-8d17-e15800c9b8a0" />
+
+<br />
+
+<img width="1374" height="711" alt="Image" src="https://github.com/user-attachments/assets/0ca2aa8f-c80a-4d31-b425-a9c11b965841" />
 
 ## Tech stack
 
